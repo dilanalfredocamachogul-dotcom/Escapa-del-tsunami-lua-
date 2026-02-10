@@ -1,40 +1,40 @@
--- Esperar a que cargue el jugador
+-- ESPERAR CARGA
+repeat task.wait() until game:IsLoaded()
 repeat task.wait() until game.Players.LocalPlayer.Character
 
 local player = game.Players.LocalPlayer
 local char = player.Character
 local hrp = char:WaitForChild("HumanoidRootPart")
+local hum = char:WaitForChild("Humanoid")
+
+-- BLOQUEAR MUERTE Y CAÍDA
+hum:SetStateEnabled(Enum.HumanoidStateType.FallingDown, false)
+hum:SetStateEnabled(Enum.HumanoidStateType.Ragdoll, false)
+hum:SetStateEnabled(Enum.HumanoidStateType.Dead, false)
 
 -- ===== GUI =====
-local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
-ScreenGui.Name = "BrainrotsGUI"
+local gui = Instance.new("ScreenGui", game.CoreGui)
+gui.Name = "BrainrotsV2"
 
-local Frame = Instance.new("Frame", ScreenGui)
-Frame.Size = UDim2.new(0, 260, 0, 200)
-Frame.Position = UDim2.new(0.5, -130, 0.5, -100)
-Frame.BackgroundColor3 = Color3.fromRGB(25,25,25)
-Frame.BorderSizePixel = 0
-Frame.Active = true
-Frame.Draggable = true
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0,260,0,210)
+frame.Position = UDim2.new(0.5,-130,0.5,-105)
+frame.BackgroundColor3 = Color3.fromRGB(20,20,20)
+frame.Active = true
+frame.Draggable = true
 
-local title = Instance.new("TextLabel", Frame)
+local title = Instance.new("TextLabel", frame)
 title.Size = UDim2.new(1,0,0,40)
-title.Text = "🧠 Brainrots"
+title.Text = "🧠 Brainrots Final"
 title.TextColor3 = Color3.new(1,1,1)
 title.BackgroundTransparency = 1
 title.TextScaled = true
 
--- ===== BOTÓN TELEPORT =====
-local tpBtn = Instance.new("TextButton", Frame)
-tpBtn.Size = UDim2.new(0.9,0,0,45)
-tpBtn.Position = UDim2.new(0.05,0,0.3,0)
-tpBtn.Text = "Brainrots (Escapar Tsunami)"
-tpBtn.BackgroundColor3 = Color3.fromRGB(60,60,60)
-tpBtn.TextColor3 = Color3.new(1,1,1)
-tpBtn.TextScaled = true
-
--- ===== BOTÓN AUTO DINERO =====
-local moneyBtn = Instance.new("TextButton", Frame)
+-- ===== BOTÓN BRAINROTS =====
+local brainBtn = Instance.new("TextButton", frame)
+brainBtn.Size = UDim2.new(0.9,0,0,45)
+brainBtn.Position = UDim2.new(0.05,0,0.3,0)
+brainBtn.Text = "Brainrotslocal moneyBtn = Instance.new("TextButton", Frame)
 moneyBtn.Size = UDim2.new(0.9,0,0,45)
 moneyBtn.Position = UDim2.new(0.05,0,0.6,0)
 moneyBtn.Text = "Recolectar Dinero AUTO"
