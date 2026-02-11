@@ -1,0 +1,71 @@
+-- Esperar jugador
+repeat task.wait() until game:IsLoaded()
+repeat task.wait() until game.Players.LocalPlayer
+
+-- Crear GUI
+local gui = Instance.new("ScreenGui")
+gui.Name = "MartinScriptsGUI"
+gui.Parent = game.CoreGui
+
+-- Botón abrir (línea pequeña)
+local openBtn = Instance.new("TextButton")
+openBtn.Parent = gui
+openBtn.Size = UDim2.new(0,150,0,30)
+openBtn.Position = UDim2.new(0.5,-75,0.1,0)
+openBtn.BackgroundColor3 = Color3.fromRGB(0,0,0)
+openBtn.TextColor3 = Color3.fromRGB(0,255,0)
+openBtn.Text = "Martín_Scripts"
+openBtn.TextScaled = true
+
+-- Frame principal
+local frame = Instance.new("Frame")
+frame.Parent = gui
+frame.Size = UDim2.new(0,250,0,200)
+frame.Position = UDim2.new(0.5,-125,0.3,0)
+frame.BackgroundColor3 = Color3.fromRGB(20,20,20)
+frame.Visible = false
+frame.Active = true
+frame.Draggable = true
+
+-- Título
+local title = Instance.new("TextLabel")
+title.Parent = frame
+title.Size = UDim2.new(1,0,0,40)
+title.Text = "Freeze Trade Panel"
+title.TextColor3 = Color3.fromRGB(255,255,255)
+title.BackgroundTransparency = 1
+title.TextScaled = true
+
+-- Botón Freeze Trade (FAKE)
+local freezeBtn = Instance.new("TextButton")
+freezeBtn.Parent = frame
+freezeBtn.Size = UDim2.new(0.8,0,0,40)
+freezeBtn.Position = UDim2.new(0.1,0,0.35,0)
+freezeBtn.Text = "Activar Freeze Trade"
+freezeBtn.BackgroundColor3 = Color3.fromRGB(50,50,50)
+freezeBtn.TextColor3 = Color3.fromRGB(255,255,255)
+freezeBtn.TextScaled = true
+
+-- Botón Forzar Aceptar (FAKE)
+local acceptBtn = Instance.new("TextButton")
+acceptBtn.Parent = frame
+acceptBtn.Size = UDim2.new(0.8,0,0,40)
+acceptBtn.Position = UDim2.new(0.1,0,0.65,0)
+acceptBtn.Text = "Forzar Aceptar"
+acceptBtn.BackgroundColor3 = Color3.fromRGB(50,50,50)
+acceptBtn.TextColor3 = Color3.fromRGB(255,255,255)
+acceptBtn.TextScaled = true
+
+-- Abrir / cerrar panel
+openBtn.MouseButton1Click:Connect(function()
+    frame.Visible = not frame.Visible
+end)
+
+-- Funciones falsas (solo cambian texto visual)
+freezeBtn.MouseButton1Click:Connect(function()
+    freezeBtn.Text = "Freeze Trade: ACTIVADO"
+end)
+
+acceptBtn.MouseButton1Click:Connect(function()
+    acceptBtn.Text = "Forzar Aceptar: ACTIVADO"
+end)
